@@ -73,7 +73,7 @@ public class CharacterMotor : MonoBehaviour {
 				barrelEnd.transform.position,
 				Quaternion.identity
 			) as GameObject;
-			bulletInstance.transform.SetParent( barrelEnd.transform );
+			bulletInstance.transform.SetParent( GameObject.Find( "*DYNAMIC*" ).transform );
 
 			// Fires bullet toward the point:
 			bulletInstance.transform.LookAt( lookPoint );
