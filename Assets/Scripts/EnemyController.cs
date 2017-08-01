@@ -5,7 +5,7 @@ using UnityEngine.AI;
 
 //This class should contain all the functions related to the enemy behavior and gamestates
 
-public class EnemyController : MonoBehaviour {
+public class EnemyController : CharacterMotor {
 
 	private NavMeshAgent agent;
 	public GameObject target;
