@@ -43,7 +43,6 @@ public class CharacterMotor : MonoBehaviour {
 			GetComponentInChildren<Pistol>().Shoot();
 		}
 
-
 		/*	PSEUDO-CODE:
 		 * 	
 		 *	if ( isHoldingObject ) {
