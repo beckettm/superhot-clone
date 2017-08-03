@@ -7,7 +7,6 @@ public class CharacterMotor : MonoBehaviour {
 	/* CONTROLLING */
 	public float moveSpeed = 200f;
 	public float jumpForce = 375f;
-	[HideInInspector] public Vector3 moveDir;
 
 	/* OBJECTS AND WEAPONS */
 	public bool isHoldingObject;
@@ -53,16 +52,6 @@ public class CharacterMotor : MonoBehaviour {
 	}
 
 
-	public void Move() {
-		Vector3 yVelFix = new Vector3( 0, rb.velocity.y, 0 );
-		rb.velocity = moveDir * moveSpeed * Time.deltaTime;
-		rb.velocity += yVelFix;	//allows player to be affected by gravity
-	}
-
-	public void Jump() {
-		rb.AddForce( Vector3.up * jumpForce, ForceMode.Impulse );
-	}
-
 	public void Attack() {
 		if ( isHoldingObject && canAttack ) {
 			// Raycasts through center of the screen, gets point that overlaps the crosshair: 
@@ -92,7 +81,6 @@ public class CharacterMotor : MonoBehaviour {
 			StartCoroutine( AttackWait( 0.6f ));
 			
 		}
-
 
 		/*	PSEUDO-CODE:
 		 * 	

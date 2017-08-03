@@ -5,7 +5,8 @@ using UnityEngine;
 public class PlayerController : CharacterMotor {
 
 	public float mouseSensitivity = 4f;
-	private float mouseY;
+	float mouseY;
+	Vector3 moveDir;
 
 
 	//==================================================//
@@ -61,5 +62,18 @@ public class PlayerController : CharacterMotor {
 	}
 
 
+
+	//==================================================//
+
+
+	void Move() {
+		Vector3 yVelFix = new Vector3( 0, rb.velocity.y, 0 );
+		rb.velocity = moveDir * moveSpeed * Time.deltaTime;
+		rb.velocity += yVelFix;	//allows player to be affected by gravity
+	}
+
+	public void Jump() {
+		rb.AddForce( Vector3.up * jumpForce, ForceMode.Impulse );
+	}
 
 }
