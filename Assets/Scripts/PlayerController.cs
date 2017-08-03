@@ -16,6 +16,7 @@ public class PlayerController : CharacterMotor {
 	}
 	
 	void Update() {
+		checkHealth ();
 		// Keyboard movement control:
 		float horizontalMove = Input.GetAxisRaw( "Horizontal" );
 		float verticalMove = Input.GetAxisRaw( "Vertical" );
@@ -58,4 +59,7 @@ public class PlayerController : CharacterMotor {
 	void FixedUpdate() {
 		Move();
 	}
+
+
+
 }
