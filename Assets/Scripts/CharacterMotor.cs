@@ -7,19 +7,20 @@ public class CharacterMotor : MonoBehaviour {
 	/* CONTROLLING */
 	public float moveSpeed = 200f;
 	public float jumpForce = 375f;
-	[HideInInspector] public Vector3 moveDir;
 
 	/* OBJECTS AND WEAPONS */
 	public bool isHoldingObject;
-	public GameObject barrelEnd; // <-- SET IN EDITOR
+	public GameObject currentlyEquippedItem; // <-- SET IN EDITOR
 	public GameObject bulletPrefab; // <-- SET IN EDITOR
 	private float bulletSpeed = 30f;
 	private float avgShotDistance = 20f;
-	private bool canAttack = true;
+	private float pickupRange = 3f;
+	public bool canAttack = true;
 
 	/* INTERNALS */
 	[HideInInspector] public float distToGround;
 	[HideInInspector] public static Rigidbody rb;
+	[HideInInspector] public int health = 3;
 
 
 	//==================================================//
@@ -43,16 +44,13 @@ public class CharacterMotor : MonoBehaviour {
 
 
 	/* ACTION FUNCITONS */
-
-	public void Move() {
-		Vector3 yVelFix = new Vector3( 0, rb.velocity.y, 0 );
-		rb.velocity = moveDir * moveSpeed * Time.deltaTime;
-		rb.velocity += yVelFix;	//allows player to be affected by gravity
+	public void checkHealth(){
+		//print (this.name + " has " + health + " health points");
+		if (health <= 0) {
+			Die ();
+		}
 	}
 
-	public void Jump() {
-		rb.AddForce( Vector3.up * jumpForce, ForceMode.Impulse );
-	}
 
 	public void Attack() {
 		if ( isHoldingObject && canAttack ) {
@@ -68,9 +66,10 @@ public class CharacterMotor : MonoBehaviour {
 			}
 
 			// Spawns bullet:
+			Vector3 bulletSpawnPoint = GameObject.Find("ObjectSpawnPoint").transform.position;
 			GameObject bulletInstance = Instantiate(
 				bulletPrefab,
-				barrelEnd.transform.position,
+				bulletSpawnPoint,
 				Quaternion.identity
 			) as GameObject;
 			bulletInstance.transform.SetParent( GameObject.Find( "*DYNAMIC*" ).transform );
@@ -82,7 +81,6 @@ public class CharacterMotor : MonoBehaviour {
 			StartCoroutine( AttackWait( 0.6f ));
 			
 		}
-
 
 		/*	PSEUDO-CODE:
 		 * 	
@@ -106,7 +104,24 @@ public class CharacterMotor : MonoBehaviour {
 		canAttack = true;
 	}
 
-	public void Grab() {
+	public void Grab() {													//Should only be called if isHoldingSomething is false
+
+		RaycastHit hit;
+		Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition); 
+		if (Physics.Raycast (ray, out hit, pickupRange)) {
+			GameObject gameObj = hit.collider.gameObject;
+			if (gameObj.tag == "Object") {								//Checks for the tag, Object, in hit
+				Debug.Log ("Something is there to grab");
+				currentlyEquippedItem = gameObj;
+				Destroy (gameObj.GetComponent<Rigidbody>());
+				SetItemPosAndRot (gameObj);
+				isHoldingObject = true;
+			}
+		}
+
+
+
+
 		/*	PSEUDO-CODE:
 		 * 	
 		 * 	if ( !isHoldingObject && can pick up object ) {
@@ -116,7 +131,38 @@ public class CharacterMotor : MonoBehaviour {
 		 */
 	}
 
-	public void Throw() {
+	public void Grab(GameObject gameObj) {													//Should only be called if isHoldingSomething is false
+
+		this.transform.LookAt (gameObj.transform);
+		currentlyEquippedItem = gameObj;
+		Destroy (gameObj.GetComponent<Rigidbody>());
+
+		gameObj.transform.SetParent (this.transform);
+		gameObj.transform.localPosition = new Vector3(0.16f, -0.21f, 0.65f);
+		gameObj.transform.localRotation = Quaternion.Euler(-3.9f, -4.16f, -0.125f);
+
+
+		isHoldingObject = true;
+	}
+
+	public void SetItemPosAndRot (GameObject go) {
+		//Sets the gameobjects position and rotation to the desired values
+		go.transform.SetParent (Camera.main.transform);
+		go.transform.localPosition = new Vector3(0.16f, -0.21f, 0.65f);
+		go.transform.localRotation = Quaternion.Euler(-3.9f, -4.16f, -0.125f);
+	}
+
+
+
+	public void Throw(GameObject go) {
+		//To throw, we could add force, but there would have to be a rigidbody. Then the gun would fall down, 
+		//so we would need to have to counteract that in some way.
+		//Otherwise, we could move the object by changing it's position, but I don't think it would feel the same.
+		go.AddComponent<Rigidbody>().AddForce(go.transform.forward * bulletSpeed, ForceMode.VelocityChange);
+
+
+
+
 		/*	PSEUDO-CODE:
 		 * 	
 		 * 	if ( isHoldingObject && object is throwable ) {
@@ -128,5 +174,17 @@ public class CharacterMotor : MonoBehaviour {
 
 	public void Die() {
 		Destroy( gameObject );
+	}
+
+	void OnCollisionEnter(Collision col){
+		if (col.gameObject.tag == "Walkable") {
+			
+		} else {
+			if (col.gameObject.tag == "Bullet") {
+				health = 0;
+			}
+			Debug.Log (this.name + " has been hit!");
+		}
+
 	}
 }
