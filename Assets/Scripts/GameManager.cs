@@ -6,6 +6,7 @@ public class GameManager : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
+		Cursor.lockState = CursorLockMode.Locked;
 		
 	}
 	
