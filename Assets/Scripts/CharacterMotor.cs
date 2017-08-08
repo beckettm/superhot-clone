@@ -14,7 +14,7 @@ public class CharacterMotor : MonoBehaviour {
 	public GameObject bulletPrefab; // <-- SET IN EDITOR
 	public float bulletSpeed = 30f;
 	private float avgShotDistance = 20f;
-	private float pickupRange = 3f;
+	private float pickupRange = 5f;
 	public bool canAttack = true;
 
 	/* INTERNALS */
@@ -154,7 +154,7 @@ public class CharacterMotor : MonoBehaviour {
 
 
 	public void Die(GameObject go) {
-		Destroy( go );
+		//Destroy( go );
 	}
 
 	void OnCollisionEnter(Collision col){

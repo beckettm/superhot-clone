@@ -140,6 +140,7 @@ public class EnemyController : CharacterMotor {
 	public void Shoot(Vector3 vec) {
 		//This would probably be inherited from the player shoot function
 		if ( isHoldingObject && canAttack ) {
+			Debug.Log ("Can attack? " + canAttack);
 			// Raycasts through center of the screen, gets point that overlaps the crosshair: 
 			Ray ray = new Ray(this.transform.position,this.transform.forward);
 			RaycastHit hit;
