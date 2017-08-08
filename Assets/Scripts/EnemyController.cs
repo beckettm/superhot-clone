@@ -112,7 +112,7 @@ public class EnemyController : CharacterMotor {
 				if (!PlayerInRange ()) {	// The distance to the player should be determined in the inspector
 					Debug.Log ("Moving towards player");
 					agent.SetDestination (player.transform.position);
-					agent.stoppingDistance = enemyMaxRange;
+					//agent.stoppingDistance = enemyMaxRange;
 				}
 
 

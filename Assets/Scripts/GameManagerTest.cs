@@ -85,7 +85,7 @@ public class GameManagerTest : MonoBehaviour {
 
 
 	public bool SpawnEnemy(Transform t) {
-		Instantiate (enemyPrefab, t);			//This uses the transform of the EnemySpawnPoint Object in the Scene
+		Instantiate (enemyPrefab, t.position, Quaternion.Euler(0f,180f,0f));			//This uses the transform of the EnemySpawnPoint Object in the Scene
 		return true;
 	}
 }
