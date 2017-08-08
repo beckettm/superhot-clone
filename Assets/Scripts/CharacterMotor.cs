@@ -10,9 +10,9 @@ public class CharacterMotor : MonoBehaviour {
 
 	/* OBJECTS AND WEAPONS */
 	public bool isHoldingObject;
-	public GameObject currentlyEquippedItem; // <-- SET IN EDITOR
+	public ObjectController currentlyEquippedItem; // <-- SET IN EDITOR
 	public GameObject bulletPrefab; // <-- SET IN EDITOR
-	private float bulletSpeed = 30f;
+	public float bulletSpeed = 30f;
 	private float avgShotDistance = 20f;
 	private float pickupRange = 3f;
 	public bool canAttack = true;
@@ -29,7 +29,6 @@ public class CharacterMotor : MonoBehaviour {
 	public void CharacterInitialization() {	//should go in Awake() or Start() of child class
 		rb = GetComponent<Rigidbody>();
 		rb.freezeRotation = true;
-
 		distToGround = GetComponent<Collider>().bounds.extents.y;
 	}
 
@@ -44,6 +43,7 @@ public class CharacterMotor : MonoBehaviour {
 
 
 	/* ACTION FUNCITONS */
+
 	public void checkHealth(){
 		//print (this.name + " has " + health + " health points");
 		if (health <= 0) {
@@ -112,7 +112,7 @@ public class CharacterMotor : MonoBehaviour {
 			GameObject gameObj = hit.collider.gameObject;
 			if (gameObj.tag == "Object") {								//Checks for the tag, Object, in hit
 				Debug.Log ("Something is there to grab");
-				currentlyEquippedItem = gameObj;
+				currentlyEquippedItem = gameObj.GetComponent<ObjectController>();
 				Destroy (gameObj.GetComponent<Rigidbody>());
 				SetItemPosAndRot (gameObj);
 				isHoldingObject = true;
@@ -131,7 +131,7 @@ public class CharacterMotor : MonoBehaviour {
 		 */
 	}
 
-	public void Grab(GameObject gameObj) {													//Should only be called if isHoldingSomething is false
+	public void Grab(ObjectController gameObj) {													//Should only be called if isHoldingSomething is false
 
 		this.transform.LookAt (gameObj.transform);
 		currentlyEquippedItem = gameObj;
@@ -153,23 +153,8 @@ public class CharacterMotor : MonoBehaviour {
 	}
 
 
-
-	public void Throw(GameObject go) {
-		//To throw, we could add force, but there would have to be a rigidbody. Then the gun would fall down, 
-		//so we would need to have to counteract that in some way.
-		//Otherwise, we could move the object by changing it's position, but I don't think it would feel the same.
-		go.AddComponent<Rigidbody>().AddForce(go.transform.forward * bulletSpeed, ForceMode.VelocityChange);
-
-
-
-
-		/*	PSEUDO-CODE:
-		 * 	
-		 * 	if ( isHoldingObject && object is throwable ) {
-		 *		throw object;
-		 *		isHoldingObject = false;
-		 *	}
-		 */
+	public void Die(GameObject go) {
+		Destroy( go );
 	}
 
 	public void Die() {
