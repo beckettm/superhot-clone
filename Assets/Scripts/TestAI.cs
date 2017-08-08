@@ -8,6 +8,7 @@ public class TestAI : CharacterMotor {
 
 
 	void Update () {
-		transform.position = Vector3.MoveTowards( transform.position, player.transform.position, moveSpeed * Time.deltaTime );
+		checkHealth ();
+		//transform.position = Vector3.MoveTowards( transform.position, player.transform.position, moveSpeed * Time.deltaTime );
 	}
 }
