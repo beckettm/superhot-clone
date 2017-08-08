@@ -5,7 +5,7 @@ using UnityEngine;
 public class GameManagerTest : MonoBehaviour {
 
 	public GameObject player;
-	public GameObject enemyPrefab;
+	public GameObject enemyPrefab, enemyNotMovePrefab;
 	public GameObject weaponPrefab;
 
 
@@ -35,7 +35,7 @@ public class GameManagerTest : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 
-		if (enemiesInScene.Count < 9) {											//The spawn requirements should be written heres
+		if (Input.GetKeyDown(KeyCode.P) && enemiesInScene.Count < 9) {											//The spawn requirements should be written heres
 			foreach (Transform t in spawnCoords) {
 				enemiesInScene.Clear ();
 				SpawnEnemy (t);
@@ -85,7 +85,7 @@ public class GameManagerTest : MonoBehaviour {
 
 
 	public bool SpawnEnemy(Transform t) {
-		Instantiate (enemyPrefab, t);			//This uses the transform of the EnemySpawnPoint Object in the Scene
+		Instantiate (enemyPrefab, t.position, Quaternion.Euler(0f,180f,0f));			//This uses the transform of the EnemySpawnPoint Object in the Scene
 		return true;
 	}
 }
