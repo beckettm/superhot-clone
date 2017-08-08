@@ -1,46 +1,89 @@
 fileFormatVersion: 2
-guid: 1eabda60e12f87145a1b13a6e03d9903
-timeCreated: 1501744219
+guid: c19b18a37edbc35439e740ec59762acc
+timeCreated: 1502185223
 licenseType: Free
 ModelImporter:
   serializedVersion: 19
   fileIDToRecycleName:
-    100000: //RootNode
-    100002: pCube1
-    100004: pCube2
-    100006: pCube3
-    100008: pCube4
-    100010: pCylinder1
-    100012: transform1
-    100014: transform2
-    100016: pCube5
-    100018: transform3
-    100020: transform4
-    100022: transform5
-    400000: //RootNode
-    400002: pCube1
-    400004: pCube2
-    400006: pCube3
-    400008: pCube4
-    400010: pCylinder1
-    400012: transform1
-    400014: transform2
-    400016: pCube5
-    400018: transform3
-    400020: transform4
-    400022: transform5
-    2300000: pCube2
-    2300002: pCube3
-    2300004: pCube4
-    2300006: pCube5
-    3300000: pCube2
-    3300002: pCube3
-    3300004: pCube4
-    3300006: pCube5
-    4300000: pCube2
-    4300002: pCube3
-    4300004: pCube4
-    4300006: pCube5
+    100000: pCube1
+    100002: pCube10
+    100004: pCube11
+    100006: pCube12
+    100008: pCube13
+    100010: pCube14
+    100012: pCube15
+    100014: pCube16
+    100016: pCube17
+    100018: pCube18
+    100020: pCube19
+    100022: pCube2
+    100024: pCube3
+    100026: pCube4
+    100028: pCube5
+    100030: pCube6
+    100032: pCube7
+    100034: pCube8
+    100036: pCube9
+    100038: transform1
+    100040: transform10
+    100042: transform11
+    100044: transform12
+    100046: transform13
+    100048: transform14
+    100050: transform15
+    100052: transform16
+    100054: transform17
+    100056: transform18
+    100058: transform2
+    100060: transform3
+    100062: transform4
+    100064: transform5
+    100066: transform6
+    100068: transform7
+    100070: transform8
+    100072: transform9
+    100074: //RootNode
+    400000: pCube1
+    400002: pCube10
+    400004: pCube11
+    400006: pCube12
+    400008: pCube13
+    400010: pCube14
+    400012: pCube15
+    400014: pCube16
+    400016: pCube17
+    400018: pCube18
+    400020: pCube19
+    400022: pCube2
+    400024: pCube3
+    400026: pCube4
+    400028: pCube5
+    400030: pCube6
+    400032: pCube7
+    400034: pCube8
+    400036: pCube9
+    400038: transform1
+    400040: transform10
+    400042: transform11
+    400044: transform12
+    400046: transform13
+    400048: transform14
+    400050: transform15
+    400052: transform16
+    400054: transform17
+    400056: transform18
+    400058: transform2
+    400060: transform3
+    400062: transform4
+    400064: transform5
+    400066: transform6
+    400068: transform7
+    400070: transform8
+    400072: transform9
+    400074: //RootNode
+    2300000: pCube19
+    3300000: pCube19
+    4300000: pCube19
     9500000: //RootNode
   materials:
     importMaterials: 1
@@ -68,7 +111,7 @@ ModelImporter:
     isReadable: 1
   meshes:
     lODScreenPercentages: []
-    globalScale: 1
+    globalScale: 100
     meshCompression: 0
     addColliders: 0
     importBlendShapes: 1
