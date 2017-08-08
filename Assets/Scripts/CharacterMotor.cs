@@ -7,7 +7,6 @@ public class CharacterMotor : MonoBehaviour {
 	/* CONTROLLING */
 	public float moveSpeed = 200f;
 	public float jumpForce = 375f;
-	[HideInInspector] public Vector3 moveDir;
 
 	/* OBJECTS AND WEAPONS */
 	public bool isHoldingObject;
@@ -21,6 +20,7 @@ public class CharacterMotor : MonoBehaviour {
 	/* INTERNALS */
 	[HideInInspector] public float distToGround;
 	[HideInInspector] public static Rigidbody rb;
+	[HideInInspector] public int health = 3;
 
 
 	//==================================================//
@@ -43,6 +43,14 @@ public class CharacterMotor : MonoBehaviour {
 
 
 	/* ACTION FUNCITONS */
+
+	public void checkHealth(){
+		//print (this.name + " has " + health + " health points");
+		if (health <= 0) {
+			Die ();
+		}
+	}
+
 
 	public void Attack() {
 		if ( isHoldingObject && canAttack ) {
@@ -73,7 +81,6 @@ public class CharacterMotor : MonoBehaviour {
 			StartCoroutine( AttackWait( 0.6f ));
 			
 		}
-
 
 		/*	PSEUDO-CODE:
 		 * 	
@@ -148,5 +155,21 @@ public class CharacterMotor : MonoBehaviour {
 
 	public void Die(GameObject go) {
 		Destroy( go );
+	}
+
+	public void Die() {
+		Destroy( gameObject );
+	}
+
+	void OnCollisionEnter(Collision col){
+		if (col.gameObject.tag == "Walkable") {
+			
+		} else {
+			if (col.gameObject.tag == "Bullet") {
+				health = 0;
+			}
+			Debug.Log (this.name + " has been hit!");
+		}
+
 	}
 }

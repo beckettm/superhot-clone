@@ -5,7 +5,8 @@ using UnityEngine;
 public class PlayerController : CharacterMotor {
 
 	public float mouseSensitivity = 4f;
-	private float mouseY;
+	float mouseY;
+	Vector3 moveDir;
 
 
 	//==================================================//
@@ -16,6 +17,7 @@ public class PlayerController : CharacterMotor {
 	}
 	
 	void Update() {
+		checkHealth ();
 		// Keyboard movement control:
 		float horizontalMove = Input.GetAxisRaw( "Horizontal" );
 		float verticalMove = Input.GetAxisRaw( "Vertical" );
