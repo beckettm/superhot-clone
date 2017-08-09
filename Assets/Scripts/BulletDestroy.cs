@@ -16,6 +16,7 @@ public class BulletDestroy : MonoBehaviour {
 	}
 
 	void OnCollisionEnter(Collision otherObject) {
+		Debug.Log ("Bullet hit something: " + otherObject.collider.name);
 		Instantiate (sparkParticleSystem, transform.position, Quaternion.identity);
 		Instantiate (impactParticleSystem, transform.position, Quaternion.identity);
 		if (otherObject.gameObject.tag == "Enemy") {

@@ -14,7 +14,7 @@ public class CharacterMotor : MonoBehaviour {
 	public GameObject bulletPrefab; // <-- SET IN EDITOR
 	public float bulletSpeed = 30f;
 	private float avgShotDistance = 20f;
-	private float pickupRange = 3f;
+	private float pickupRange = 5f;
 	public bool canAttack = true;
 
 	/* INTERNALS */
@@ -47,7 +47,7 @@ public class CharacterMotor : MonoBehaviour {
 	public void checkHealth(){
 		//print (this.name + " has " + health + " health points");
 		if (health <= 0) {
-			Die ();
+			Die (this.gameObject);
 		}
 	}
 
@@ -154,11 +154,7 @@ public class CharacterMotor : MonoBehaviour {
 
 
 	public void Die(GameObject go) {
-		Destroy( go );
-	}
-
-	public void Die() {
-		Destroy( gameObject );
+		//Destroy( go );
 	}
 
 	void OnCollisionEnter(Collision col){
