@@ -100,7 +100,7 @@ public class TimeController : MonoBehaviour {
 	// sets the timeScale to real-time for 0.3s, then back again:
 	public static IEnumerator DoAction() {
 		canAffectTime = false;
-		yield return new WaitForSecondsRealtime( 0.3f );
+		yield return new WaitForSecondsRealtime( 0.1f );
 		canAffectTime = true;
 	}
 }

@@ -1,8 +1,10 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class BulletDestroy : MonoBehaviour {
+	
 	public GameObject sparkParticleSystem;
 	public GameObject gibletParticleSystem;
 	public GameObject smallGibParticleSystem;
@@ -10,6 +12,8 @@ public class BulletDestroy : MonoBehaviour {
 	public GameObject normalSparkParticleSystem;
 	public GameObject normalImpactParticleSystem;
 	public GameObject muzzleFlashParticleSystem;
+	public GameObject heldwep;
+
 	void Start () {
 		Instantiate (muzzleFlashParticleSystem, transform.position, Quaternion.identity);
 	}
@@ -24,10 +28,29 @@ public class BulletDestroy : MonoBehaviour {
 			Instantiate (smallGibParticleSystem, transform.position, Quaternion.identity);
 			Instantiate (sparkParticleSystem, transform.position, Quaternion.identity);
 			Instantiate (impactParticleSystem, transform.position, Quaternion.identity);
+
+			try {
+				heldwep = otherObject.gameObject.transform.GetChild (1).gameObject; 
+				heldwep.transform.parent = null;
+				heldwep.AddComponent<Rigidbody> ();
+			} catch (Exception e) {
+				Debug.LogException (e, this);
+			}
+
+			Destroy (otherObject.gameObject);
+
+		} else if (otherObject.gameObject.tag == "Player") {
+
+		} else if (otherObject.gameObject.tag == "Gun") {
+			Destroy (otherObject.gameObject);
 		} else {
 			Instantiate (normalSparkParticleSystem, transform.position, Quaternion.identity);
 			Instantiate (normalImpactParticleSystem, transform.position, Quaternion.identity);
+
 		}
-		Destroy( gameObject );
+
+
+		Destroy( this.gameObject );
 	}
+		
 }
