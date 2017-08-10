@@ -16,7 +16,7 @@ public class CrosshairImage : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		GetComponent<Image> ().transform.position = Input.mousePosition;
+//		GetComponent<Image> ().transform.position = Input.mousePosition;
 		Ray aRay = Camera.main.ScreenPointToRay (Input.mousePosition);
 		RaycastHit rayHit = new RaycastHit ();
 		Debug.DrawRay (aRay.origin, aRay.direction * 2f, Color.yellow);
