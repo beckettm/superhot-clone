@@ -110,8 +110,8 @@ public class CharacterMotor : MonoBehaviour {
 		Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition); 
 		if (Physics.Raycast (ray, out hit, pickupRange)) {
 			GameObject gameObj = hit.collider.gameObject;
-			if (gameObj.tag == "Object") {								//Checks for the tag, Object, in hit
-				Debug.Log ("Something is there to grab");
+			if (gameObj.GetComponent<ObjectController>() != null) {								//Checks for the tag, Object, in hit
+				//Debug.Log ("Something is there to grab");
 				currentlyEquippedItem = gameObj.GetComponent<ObjectController>();
 				Destroy (gameObj.GetComponent<Rigidbody>());
 				SetItemPosAndRot (gameObj);

@@ -78,7 +78,7 @@ public class PlayerController : CharacterMotor {
 		//Otherwise, we could move the object by changing it's position, but I don't think it would feel the same.
 		obj.gameObject.AddComponent<Rigidbody>().AddForce(obj.transform.forward * bulletSpeed, ForceMode.VelocityChange);
 		//currentlyEquippedItem;
-
+		isHoldingObject = false;
 
 
 		/*	PSEUDO-CODE:
