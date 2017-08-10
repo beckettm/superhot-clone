@@ -5,7 +5,8 @@ using UnityEngine;
 public class PlayerController : CharacterMotor {
 
 	public float mouseSensitivity = 4f;
-	private float mouseY;
+	float mouseY;
+	Vector3 moveDir;
 
 
 	//==================================================//
@@ -60,6 +61,32 @@ public class PlayerController : CharacterMotor {
 		Move();
 	}
 
+	public void Move() {
+		Vector3 yVelFix = new Vector3( 0, rb.velocity.y, 0 );
+		rb.velocity = moveDir * moveSpeed * Time.deltaTime;
+		rb.velocity += yVelFix;	//allows player to be affected by gravity
+	}
+
+	public void Jump() {
+		rb.AddForce( Vector3.up * jumpForce, ForceMode.Impulse );
+	}
 
 
+	public void Throw(ObjectController obj) {
+		//To throw, we could add force, but there would have to be a rigidbody. Then the gun would fall down, 
+		//so we would need to have to counteract that in some way.
+		//Otherwise, we could move the object by changing it's position, but I don't think it would feel the same.
+		obj.gameObject.AddComponent<Rigidbody>().AddForce(obj.transform.forward * bulletSpeed, ForceMode.VelocityChange);
+		//currentlyEquippedItem;
+
+
+
+		/*	PSEUDO-CODE:
+		 * 	
+		 * 	if ( isHoldingObject && object is throwable ) {
+		 *		throw object;
+		 *		isHoldingObject = false;
+		 *	}
+		 */
+	}
 }
