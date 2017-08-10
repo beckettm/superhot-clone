@@ -16,7 +16,7 @@ public class CrosshairImage : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		GetComponent<Image> ().transform.position = Input.mousePosition;
+		//GetComponent<Image> ().transform.position;
 		Ray aRay = Camera.main.ScreenPointToRay (Input.mousePosition);
 		RaycastHit rayHit = new RaycastHit ();
 		Debug.DrawRay (aRay.origin, aRay.direction * 2f, Color.yellow);
@@ -27,7 +27,7 @@ public class CrosshairImage : MonoBehaviour {
 			}*/
 			GetComponent<Image> ().sprite = normalCrosshairImage;
 			if (Physics.Raycast(aRay, out rayHit, 2f)){
-				if (rayHit.collider.gameObject.tag == "Object") {
+				if (rayHit.collider.gameObject.GetComponent<ObjectController>() != null) {
 					GetComponent<Image> ().sprite = grabCrosshairImage;
 				} else if (rayHit.collider.gameObject.tag == "Enemy"){
 					GetComponent<Image> ().sprite = punchCrosshairImage;
