@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
@@ -26,6 +27,7 @@ public class EnemyController : CharacterMotor {
 
 	//Intializing variables
 	void Start () {
+		CheckForWeapon ();
 		agent = GetComponent<NavMeshAgent> ();
 		enemyMaxRange = 18f;
 		enemyMeleeRange = 1f;
@@ -45,21 +47,21 @@ public class EnemyController : CharacterMotor {
 
 
 		if (!isHoldingObject && weaponOnGround) {
-			Debug.Log ("State1");
+			//Debug.Log ("State1");
 			// No weapon, but there is one available
 			NavToObject(GetWeaponToPickup());														//Needs to be changed later
 
 		} else if (!isHoldingObject && !weaponOnGround) {
-			Debug.Log ("State3");
+			//Debug.Log ("State3");
 			// Melee (no weapon available)
 			NavToObject(player);
 
 		} else if (isHoldingObject) {
-			Debug.Log ("State3");
+			//Debug.Log ("State3");
 			// Check if weapon is a gun or melee weapon
 			if (currentlyEquippedItem.tag == "Gun") {
 				//With a gun
-				Debug.Log("Going to shoot at player");
+				//Debug.Log("Going to shoot at player");
 				NavToObject(player);
 				Shoot (player.transform.position);
 
@@ -89,12 +91,12 @@ public class EnemyController : CharacterMotor {
 
 	public bool NavToObject(ObjectController gameObj) {						//This is for navigating to a weapon, if there is one available
 																			//That should be tracked in the GameManager
-		if (this.canMove) {													//If this enemy can move..
+		if (this.canMove && !isHoldingObject) {													//If this enemy can move..
 			if (GameManagerTest.weaponsInScene.Count > 0) {	
 				agent.SetDestination (gameObj.transform.position);			//This must be changed if we use the game manager to handle the bool and GameObject
-				Debug.Log ("Moving towards weapon");
+				//Debug.Log ("Moving towards weapon");
 				if (Vector3.Distance (this.transform.position, gameObj.transform.position) < 3f) {
-					Debug.Log ("Enemy is attempting to grab a weapon");
+					//Debug.Log ("Enemy is attempting to grab a weapon");
 					Grab (gameObj);
 				}
 			}
@@ -108,9 +110,9 @@ public class EnemyController : CharacterMotor {
 																			//This should be tracked in the GameManager
 		if (this.canMove) {													//If this enemy can move..
 
-			if (currentlyEquippedItem.tag == "Gun") {						//And if they have a GUN WEAPON equipped..
+			if (currentlyEquippedItem.tag == "Gun" && isHoldingObject) {						//And if they have a GUN WEAPON equipped..
 				if (!PlayerInRange ()) {	// The distance to the player should be determined in the inspector
-					Debug.Log ("Moving towards player");
+					//Debug.Log ("Moving towards player");
 					agent.SetDestination (player.transform.position);
 					//agent.stoppingDistance = enemyMaxRange;
 				}
@@ -119,7 +121,7 @@ public class EnemyController : CharacterMotor {
 			} else {														//Else if they have a MELEE WEAPON, or NO WEAPON equipped..
 				if (Vector3.Distance (this.transform.position, player.transform.position) > enemyMeleeRange) {
 					agent.SetDestination (player.transform.position);
-					Debug.Log ("Moving towards Object");
+					//Debug.Log ("Moving towards Object");
 				}
 			}
 		}
@@ -140,7 +142,7 @@ public class EnemyController : CharacterMotor {
 	public void Shoot(Vector3 vec) {
 		//This would probably be inherited from the player shoot function
 		if ( isHoldingObject && canAttack ) {
-			Debug.Log ("Can attack? " + canAttack);
+			//Debug.Log ("Can attack? " + canAttack);
 			// Raycasts through center of the screen, gets point that overlaps the crosshair: 
 			Ray ray = new Ray(this.transform.position,this.transform.forward);
 			RaycastHit hit;
@@ -187,6 +189,29 @@ public class EnemyController : CharacterMotor {
 		}
 
 		return closestWep;
+	}
+
+
+	public bool CheckForWeapon() {
+
+		if (currentlyEquippedItem != null) {
+			try {
+				Grab(currentlyEquippedItem);
+				isHoldingObject = true;
+
+			} catch (Exception e) {
+				Debug.LogException (e, this);
+			}
+
+		} else if (currentlyEquippedItem != null) {
+			try {
+				isHoldingObject = false;
+
+			} catch (Exception e) {
+				Debug.LogException (e, this);
+			}
+		}
+		return isHoldingObject;
 	}
 
 
