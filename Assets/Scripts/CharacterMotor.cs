@@ -46,9 +46,19 @@ public class CharacterMotor : MonoBehaviour {
 
 	public void checkHealth(){
 		//print (this.name + " has " + health + " health points");
-		if (health <= 0) {
+		if (health < 1) {
+			Debug.Log ("This health is now 0");
 			Die (this.gameObject);
 		}
+	}
+
+	public void Punch(RaycastHit hit){
+		hit.collider.gameObject.GetComponent<CharacterMotor> ().health -= 1;
+		print ("Enemy has :" + hit.collider.gameObject.GetComponent<CharacterMotor> ().health+ " health left");
+		StartCoroutine( AttackWait( 0.6f ));
+
+
+
 	}
 
 
@@ -154,7 +164,7 @@ public class CharacterMotor : MonoBehaviour {
 
 
 	public void Die(GameObject go) {
-		//Destroy( go );
+		Destroy( go );
 	}
 
 	void OnCollisionEnter(Collision col){
@@ -168,4 +178,6 @@ public class CharacterMotor : MonoBehaviour {
 		}
 
 	}
+
+
 }

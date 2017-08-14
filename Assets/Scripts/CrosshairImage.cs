@@ -19,7 +19,7 @@ public class CrosshairImage : MonoBehaviour {
 		//GetComponent<Image> ().transform.position;
 		Ray aRay = Camera.main.ScreenPointToRay (Input.mousePosition);
 		RaycastHit rayHit = new RaycastHit ();
-		Debug.DrawRay (aRay.origin, aRay.direction * 2f, Color.yellow);
+		//Debug.DrawRay (aRay.origin, aRay.direction * 2f, Color.yellow);
 		if (thePlayer.GetComponent<PlayerController>().currentlyEquippedItem == null){
 			//GetComponent<Image> ().sprite = normalCrosshairImage;
 			/*if (rayHit.transform.gameObject.tag == "Gun") {
