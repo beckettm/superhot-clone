@@ -53,9 +53,11 @@ public class CharacterMotor : MonoBehaviour {
 	}
 
 	public void Punch(RaycastHit hit){
-		hit.collider.gameObject.GetComponent<CharacterMotor> ().health -= 1;
-		print ("Enemy has :" + hit.collider.gameObject.GetComponent<CharacterMotor> ().health+ " health left");
-		StartCoroutine( AttackWait( 0.6f ));
+		//if (canAttack) {
+			hit.collider.gameObject.GetComponent<CharacterMotor> ().health -= 1;
+			print ("Enemy has :" + hit.collider.gameObject.GetComponent<CharacterMotor> ().health + " health left");
+			StartCoroutine (AttackWait (0.005f));
+		//}
 
 
 
@@ -63,34 +65,34 @@ public class CharacterMotor : MonoBehaviour {
 
 
 	public void Attack() {
-		if ( isHoldingObject && canAttack ) {
+		if (isHoldingObject && canAttack) {
 			// Raycasts through center of the screen, gets point that overlaps the crosshair: 
-			Ray ray = Camera.main.ViewportPointToRay( new Vector3( 0.5f, 0.5f, Camera.main.nearClipPlane ));
+			Ray ray = Camera.main.ViewportPointToRay (new Vector3 (0.5f, 0.5f, Camera.main.nearClipPlane));
 			RaycastHit hit;
 			Vector3 lookPoint; //used to track where the bullet should be fired towards
 
-			if ( Physics.Raycast( ray, out hit )) {
+			if (Physics.Raycast (ray, out hit)) {
 				lookPoint = hit.point;
 			} else {
-				lookPoint = ray.GetPoint( avgShotDistance );
+				lookPoint = ray.GetPoint (avgShotDistance);
 			}
 
 			// Spawns bullet:
-			Vector3 bulletSpawnPoint = GameObject.Find("ObjectSpawnPoint").transform.position;
-			GameObject bulletInstance = Instantiate(
-				bulletPrefab,
-				bulletSpawnPoint,
-				Quaternion.identity
-			) as GameObject;
-			bulletInstance.transform.SetParent( GameObject.Find( "*DYNAMIC*" ).transform );
+			Vector3 bulletSpawnPoint = GameObject.Find ("ObjectSpawnPoint").transform.position;
+			GameObject bulletInstance = Instantiate (
+				                            bulletPrefab,
+				                            bulletSpawnPoint,
+				                            Quaternion.identity
+			                            ) as GameObject;
+			bulletInstance.transform.SetParent (GameObject.Find ("*DYNAMIC*").transform);
 
 			// Fires bullet toward the point:
-			bulletInstance.transform.LookAt( lookPoint );
-			bulletInstance.GetComponent<Rigidbody>().AddForce( bulletInstance.transform.forward * bulletSpeed, ForceMode.VelocityChange );
+			bulletInstance.transform.LookAt (lookPoint);
+			bulletInstance.GetComponent<Rigidbody> ().AddForce (bulletInstance.transform.forward * bulletSpeed, ForceMode.VelocityChange);
 
-			StartCoroutine( AttackWait( 0.6f ));
+			StartCoroutine (AttackWait (0.6f));
 			
-		}
+		} 
 
 		/*	PSEUDO-CODE:
 		 * 	
