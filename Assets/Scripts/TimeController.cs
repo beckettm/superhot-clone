@@ -32,12 +32,15 @@ public class TimeController : MonoBehaviour {
 	
 	static float defaultTimeStep = 0.02f; //used to maintain smoothness in slow-motion
 
+	public AudioSource gunSound;
+
 
 	//==================================================//
 
 
 	void Start () {
 		canAffectTime = true;
+		gunSound = GetComponent<AudioSource> ();
 	}
 	
 	void Update () {
@@ -50,14 +53,21 @@ public class TimeController : MonoBehaviour {
 
 			// Walking time:
 			if ( Input.GetButton( "Horizontal" ) || Input.GetButton( "Vertical" ) ) {
+				changePitch (realTimeScale);
 				EditTimeScale( realTimeScale );
+
 				
 			// Mouse-Look Time:
 			} else if ( mouseVel >= 0.5f ) {
-				EditTimeScale( Mathf.Clamp( mouseVel / 5 , mouseTimeScale_Min, mouseTimeScale_Max ));
+				float clampt = Mathf.Clamp (mouseVel / 5, mouseTimeScale_Min, mouseTimeScale_Max);
+				changePitch (clampt);
+				EditTimeScale(clampt);
 				
 			// Attack ACTION:
-			} else if ( Input.GetButtonDown( "Attack" ) /*&& player.isHoldingObject*/ ) {
+			} else if ( Input.GetButtonDown( "Attack" ) && player.canAttack==true && player.isHoldingObject == true && player.currentlyEquippedItem.gameObject.tag =="Gun" && player.currentlyEquippedItem.gameObject.GetComponent<Pistol>().ammo > 0 ) {
+				gunSound.Play ();
+				changePitch (stillTimeScale + 0.5f);
+				print ("reached this");
 				StartCoroutine( DoAction() );
 				
 			// Throw ACTION:
@@ -67,22 +77,27 @@ public class TimeController : MonoBehaviour {
 			// Jump ACTION:
 			} else if ( Input.GetButtonDown( "Jump" ) && player.IsStandingOn( "Walkable" ) == true ) {
 				StartCoroutine( DoAction() );
+				changePitch (realTimeScale);
 				EditTimeScale( realTimeScale );
 				
 			// Jump time (only when holding button):
 			} else if ( player.IsStandingOn( "Walkable" ) == false ) {
 				if ( Input.GetButton( "Jump" )) {
+					changePitch (jumpTimeScale);
 					EditTimeScale( jumpTimeScale );
 				} else {
+					changePitch (realTimeScale);
 					EditTimeScale( realTimeScale );
 				}
 				
 			// If not moving:
 			} else {
+				changePitch (stillTimeScale + 0.5f);
 				EditTimeScale( stillTimeScale );
 			}
 			
 		} else {
+			changePitch (realTimeScale );
 			EditTimeScale( realTimeScale );
 		}
 	}
@@ -94,8 +109,13 @@ public class TimeController : MonoBehaviour {
 	public static void EditTimeScale( float newTimeScale ) {
 		Time.timeScale = newTimeScale;
 		Time.fixedDeltaTime = newTimeScale * defaultTimeStep;
+
 	}
 
+	public void changePitch(float newTimeScale ){
+		gunSound.pitch = newTimeScale;
+
+	}
 	// Performing any ACTION (shooting, jumping, punching, grabbing, or throwing)
 	// sets the timeScale to real-time for 0.3s, then back again:
 	public static IEnumerator DoAction() {

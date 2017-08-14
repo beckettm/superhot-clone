@@ -16,9 +16,7 @@ public class CrosshairImage : MonoBehaviour {
 		// Creates a ray from mouse position
 		Ray aRay = Camera.main.ScreenPointToRay (Input.mousePosition);
 		RaycastHit rayHit = new RaycastHit ();
-		Debug.DrawRay (aRay.origin, aRay.direction * 2f, Color.yellow);
-
-		// If the player doesn't have a weapon set to these images
+		//Debug.DrawRay (aRay.origin, aRay.direction * 2f, Color.yellow);
 		if (thePlayer.GetComponent<PlayerController>().currentlyEquippedItem == null){
 			GetComponent<Image> ().sprite = normalCrosshairImage;
 			if (Physics.Raycast(aRay, out rayHit, 2f)){

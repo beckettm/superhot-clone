@@ -39,6 +39,8 @@ public class EnemyController : CharacterMotor {
 
 	void Update () {
 
+		checkHealth ();
+
 		//weaponOnGround needs to be updated here.
 		if (GameManagerTest.weaponsRemaining > 0f) {
 			weaponOnGround = true;
