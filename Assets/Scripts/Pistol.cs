@@ -11,8 +11,12 @@ public class Pistol : MonoBehaviour {
 	private float avgShotDistance = 20f;
 	private bool canAttack = true;
 
+	public int ammo;
+
 
 	void Start () {
+		ammo = Random.Range (1, 7);
+		//print (ammo);
 		
 	}
 	
