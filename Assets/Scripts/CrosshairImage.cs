@@ -9,9 +9,15 @@ public class CrosshairImage : MonoBehaviour {
 	public Sprite grabCrosshairImage;
 	public Sprite gunCrosshairImage;
 	public Sprite punchCrosshairImage;
+
+	bool reloadsoundplayed = true;
+
+
+	public AudioSource reloadSound;
 	void Start () {
 		thePlayer = GameObject.Find("Player");
 	}
+
 	void Update () {
 		// Creates a ray from mouse position
 		Ray aRay = Camera.main.ScreenPointToRay (Input.mousePosition);
@@ -34,7 +40,13 @@ public class CrosshairImage : MonoBehaviour {
 			if (thePlayer.GetComponent<PlayerController> ().canAttack == false) { // If the gun has been used, reload "animation" plays
 				transform.localScale = new Vector3(0.7f, 0.7f, 0.7f);
 				GetComponent<Transform> ().Rotate (0, 0, -145f * Time.deltaTime);
-			} else { // If gun is reloaded, return to inital rotation and size
+				reloadsoundplayed = false;
+			} else {
+				if (reloadsoundplayed == false) {
+					// If gun is reloaded, return to inital rotation and size
+					reloadSound.Play ();
+					reloadsoundplayed = true;
+				}
 				transform.localScale = new Vector3(1f, 1f, 1f);
 				transform.rotation = Quaternion.identity;
 			}
