@@ -36,7 +36,8 @@ public class GameManagerTest : MonoBehaviour {
 	void Update () {
 
 
-		if (Input.GetKeyDown(KeyCode.P)) {											//The spawn requirements should be written heres
+		if (enemiesInScene.Count < 1) {											//The spawn requirements should be written heres
+			Debug.Log("enemies will spawn");
 			foreach (Transform t in spawnCoords) {
 				enemiesInScene.Clear ();
 				SpawnEnemy (t);
@@ -47,7 +48,7 @@ public class GameManagerTest : MonoBehaviour {
 
 	public List<Transform> GetAllSpawnPoints() {
 
-		foreach (EnemySpawnPoint esp in Resources.FindObjectsOfTypeAll(typeof(EnemySpawnPoint)) as EnemySpawnPoint[]) {
+		foreach (EnemySpawnPoint esp in GameObject.FindObjectsOfType<EnemySpawnPoint>() as EnemySpawnPoint[]) {
 			//if (esp.hideFlags == HideFlags.NotEditable || esp.hideFlags == HideFlags.HideAndDontSave)
 			//	continue;
 
@@ -60,7 +61,7 @@ public class GameManagerTest : MonoBehaviour {
 
 	public List<ObjectController> GetAllWeaponsInScene() {
 
-		foreach (ObjectController wep in Resources.FindObjectsOfTypeAll(typeof(ObjectController)) as ObjectController[]) {
+		foreach (ObjectController wep in GameObject.FindObjectsOfType<ObjectController>() as ObjectController[]) {
 			//if (wep.hideFlags == HideFlags.NotEditable || wep.hideFlags == HideFlags.HideAndDontSave)
 			//	continue;
 
@@ -73,7 +74,7 @@ public class GameManagerTest : MonoBehaviour {
 
 	public List<EnemyController> GetAllEnemiesInScene() {
 
-		foreach (EnemyController enemy in Resources.FindObjectsOfTypeAll(typeof(EnemyController)) as EnemyController[]) {
+		foreach (EnemyController enemy in GameObject.FindObjectsOfType<EnemyController>() as EnemyController[]) {
 			//if (enemy.hideFlags == HideFlags.NotEditable || enemy.hideFlags == HideFlags.HideAndDontSave)
 			//	continue;
 

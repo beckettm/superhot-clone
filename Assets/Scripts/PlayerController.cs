@@ -9,11 +9,18 @@ public class PlayerController : CharacterMotor {
 	Vector3 moveDir;
 
 
+	AudioSource gunClick;
+
+
 	//==================================================//
 
 
 	void Awake() {
 		CharacterInitialization();
+	}
+
+	void Start(){
+		gunClick = this.GetComponent<AudioSource> ();
 	}
 	
 	void Update() {
@@ -41,13 +48,49 @@ public class PlayerController : CharacterMotor {
 			Cursor.visible = false;
 		}
 
+		Ray aRay = Camera.main.ScreenPointToRay (Input.mousePosition);
+		RaycastHit rayHit = new RaycastHit ();
+		Debug.DrawRay (aRay.origin, aRay.direction * 2f, Color.red);
+
 		// Attacking/Shooting:
 		if (Input.GetButtonDown ("Attack")) {
 
-			if (isHoldingObject) {
-				Attack ();
-			} else {
-				Grab ();
+
+
+			if (isHoldingObject){
+				if (currentlyEquippedItem.gameObject.tag == "Gun") {
+					if (currentlyEquippedItem.GetComponent<Pistol> ().ammo > 0) {
+						Attack ();
+						currentlyEquippedItem.GetComponent<Pistol> ().ammo--;
+					} else {
+						gunClick.Play();
+					}
+				} else {
+					if (Physics.Raycast (aRay, out rayHit, 2f)) {
+						if (rayHit.collider.gameObject.tag == "Enemy") {
+							//swing weapon
+						}
+					}
+				}
+			}
+				/**Logic for fixing this***/
+
+			 else {
+				if (Physics.Raycast (aRay, out rayHit, 1f)) {
+					Debug.Log ("The attack ray has landed");
+
+					if (rayHit.collider.gameObject.GetComponent<ObjectController> () != null) {
+						Grab ();
+					} else if (rayHit.collider.gameObject.tag == "Enemy") {
+						Punch (rayHit);
+						//punch
+					}
+
+
+
+				}
+
+				
 			}
 		}
 
@@ -79,6 +122,7 @@ public class PlayerController : CharacterMotor {
 		obj.gameObject.AddComponent<Rigidbody>().AddForce(obj.transform.forward * bulletSpeed, ForceMode.VelocityChange);
 		//currentlyEquippedItem;
 		isHoldingObject = false;
+		currentlyEquippedItem = null;
 
 
 		/*	PSEUDO-CODE:

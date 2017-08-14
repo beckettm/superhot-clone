@@ -1,6 +1,6 @@
 fileFormatVersion: 2
 guid: ec468e1a3d5424943b0440f7a7e2c5b3
-timeCreated: 1502353052
+timeCreated: 1502670426
 licenseType: Free
 MonoImporter:
   serializedVersion: 2
@@ -10,6 +10,8 @@ MonoImporter:
   - grabCrosshairImage: {fileID: 21300000, guid: 5b792f56eded7634d9d13875b3914dfa,
       type: 3}
   - gunCrosshairImage: {fileID: 21300000, guid: f71a4acdaed5b3e48a812011770c5b72,
+      type: 3}
+  - punchCrosshairImage: {fileID: 21300000, guid: 61a046680c83e674c9d67684954a064f,
       type: 3}
   executionOrder: 0
   icon: {instanceID: 0}

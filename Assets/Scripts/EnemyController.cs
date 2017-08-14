@@ -22,7 +22,7 @@ public class EnemyController : CharacterMotor {
 	//These should probably be managed by a game manager 
 	private ObjectController closestWep;
 	public bool weaponOnGround;
-	public GameObject weapon;
+	//public GameObject weapon;
 
 
 	//Intializing variables
@@ -31,11 +31,15 @@ public class EnemyController : CharacterMotor {
 		agent = GetComponent<NavMeshAgent> ();
 		enemyMaxRange = 18f;
 		enemyMeleeRange = 1f;
+		player = GameObject.FindObjectOfType<PlayerController>();
+
 	} //End Start()
 
 
 
 	void Update () {
+
+		checkHealth ();
 
 		//weaponOnGround needs to be updated here.
 		if (GameManagerTest.weaponsRemaining > 0f) {
@@ -63,6 +67,7 @@ public class EnemyController : CharacterMotor {
 				//With a gun
 				//Debug.Log("Going to shoot at player");
 				NavToObject(player);
+				AimAt (player);
 				Shoot (player.transform.position);
 
 			} else if (currentlyEquippedItem.tag == "Melee") {
@@ -109,19 +114,21 @@ public class EnemyController : CharacterMotor {
 																			//It should only be used if there is NO WEAPON for the enemy to pick up
 																			//This should be tracked in the GameManager
 		if (this.canMove) {													//If this enemy can move..
+			if (currentlyEquippedItem != null) {
+				if (currentlyEquippedItem.tag == "Gun" && isHoldingObject) {						//And if they have a GUN WEAPON equipped..
+				
+					if (!PlayerInRange ()) {	// The distance to the player should be determined in the inspector
+						//Debug.Log ("Moving towards player");
+						agent.SetDestination (player.transform.position);
+						//agent.stoppingDistance = enemyMaxRange;
+					}
 
-			if (currentlyEquippedItem.tag == "Gun" && isHoldingObject) {						//And if they have a GUN WEAPON equipped..
-				if (!PlayerInRange ()) {	// The distance to the player should be determined in the inspector
-					//Debug.Log ("Moving towards player");
-					agent.SetDestination (player.transform.position);
-					//agent.stoppingDistance = enemyMaxRange;
-				}
 
-
-			} else {														//Else if they have a MELEE WEAPON, or NO WEAPON equipped..
-				if (Vector3.Distance (this.transform.position, player.transform.position) > enemyMeleeRange) {
-					agent.SetDestination (player.transform.position);
-					//Debug.Log ("Moving towards Object");
+				} else {														//Else if they have a MELEE WEAPON, or NO WEAPON equipped..
+					if (Vector3.Distance (this.transform.position, player.transform.position) > enemyMeleeRange) {
+						agent.SetDestination (player.transform.position);
+						//Debug.Log ("Moving towards Object");
+					}
 				}
 			}
 		}
