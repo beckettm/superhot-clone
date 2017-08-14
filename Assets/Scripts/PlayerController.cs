@@ -122,6 +122,7 @@ public class PlayerController : CharacterMotor {
 		obj.gameObject.AddComponent<Rigidbody>().AddForce(obj.transform.forward * bulletSpeed, ForceMode.VelocityChange);
 		//currentlyEquippedItem;
 		isHoldingObject = false;
+		currentlyEquippedItem = null;
 
 
 		/*	PSEUDO-CODE:
