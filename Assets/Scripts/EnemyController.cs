@@ -38,17 +38,24 @@ public class EnemyController : CharacterMotor {
 
 
 	void Update () {
-
 		//weaponOnGround needs to be updated here.
-		if (GameManagerTest.weaponsRemaining > 0f) {
+		if (GameManagerTest.weaponsInScene.Count > 0f) {
 			weaponOnGround = true;
 		} else {
 			weaponOnGround = false;
 		}
-			
+
+		if (currentlyEquippedItem == null) {
+			isHoldingObject = false;
+		}
 
 
-		if (!isHoldingObject && weaponOnGround) {
+
+		if (meleeOnly == true && canMove == true) {
+			NavToObject (player);
+		}
+
+		else if (!isHoldingObject && weaponOnGround) {
 			//Debug.Log ("State1");
 			// No weapon, but there is one available
 			NavToObject(GetWeaponToPickup());														//Needs to be changed later
@@ -57,20 +64,26 @@ public class EnemyController : CharacterMotor {
 			//Debug.Log ("State3");
 			// Melee (no weapon available)
 			NavToObject(player);
+//			Debug.Log ("This guy should run at me");
 
 		} else if (isHoldingObject) {
 			//Debug.Log ("State3");
 			// Check if weapon is a gun or melee weapon
-			if (currentlyEquippedItem.tag == "Gun") {
+			try {
+				//Debug.Log(currentlyEquippedItem);
+				if (currentlyEquippedItem.tag == "Gun") {
 				//With a gun
 				//Debug.Log("Going to shoot at player");
-				NavToObject(player);
-				AimAt (player);
-				Shoot (player.transform.position);
+					NavToObject(player);
+					AimAt (player);
+					Shoot (player.transform.position);
 
-			} else if (currentlyEquippedItem.tag == "Melee") {
+				} else if (currentlyEquippedItem.tag == "Melee") {
 				//With a weapon
-				NavToObject(player);
+					NavToObject(player);
+				}
+			} catch(Exception e) {
+				Debug.LogException (e, this);
 			}
 		}
 
@@ -98,7 +111,7 @@ public class EnemyController : CharacterMotor {
 			if (GameManagerTest.weaponsInScene.Count > 0) {	
 				agent.SetDestination (gameObj.transform.position);			//This must be changed if we use the game manager to handle the bool and GameObject
 				//Debug.Log ("Moving towards weapon");
-				if (Vector3.Distance (this.transform.position, gameObj.transform.position) < 3f) {
+				if (Vector3.Distance (this.transform.position, gameObj.transform.position) < 2f) {
 					//Debug.Log ("Enemy is attempting to grab a weapon");
 					Grab (gameObj);
 				}
@@ -128,6 +141,9 @@ public class EnemyController : CharacterMotor {
 						//Debug.Log ("Moving towards Object");
 					}
 				}
+			} else {
+				agent.SetDestination (player.transform.position);
+
 			}
 		}
 		return true;

@@ -4,7 +4,8 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class BulletDestroy : MonoBehaviour {
-	
+
+	public GameManagerTest gm;
 	public GameObject sparkParticleSystem;
 	public GameObject gibletParticleSystem;
 	public GameObject smallGibParticleSystem;
@@ -16,13 +17,14 @@ public class BulletDestroy : MonoBehaviour {
 
 	void Start () {
 		Instantiate (muzzleFlashParticleSystem, transform.position, Quaternion.identity);
+		gm = GameObject.Find ("GameManager").GetComponent<GameManagerTest> ();
 	}
 	void Update () {
 		Destroy( gameObject, 5f );
 	}
 
 	void OnCollisionEnter(Collision otherObject) {
-		Debug.Log ("Bullet hit something: " + otherObject.collider.name);
+		//Debug.Log ("Bullet hit something: " + otherObject.collider.name);
 		if (otherObject.gameObject.tag == "Enemy") {
 			Instantiate (gibletParticleSystem, transform.position, Quaternion.identity);
 			Instantiate (smallGibParticleSystem, transform.position, Quaternion.identity);
@@ -30,9 +32,11 @@ public class BulletDestroy : MonoBehaviour {
 			Instantiate (impactParticleSystem, transform.position, Quaternion.identity);
 
 			try {
+				gm.GetAllWeaponsInScene();
 				heldwep = otherObject.gameObject.transform.GetChild (1).gameObject; 
 				heldwep.transform.parent = null;
 				heldwep.AddComponent<Rigidbody> ();
+
 			} catch (Exception e) {
 				Debug.LogException (e, this);
 			}

@@ -4,6 +4,11 @@ using UnityEngine;
 
 public class EnemySpawnPoint : MonoBehaviour {
 
+	public bool canMove;
+	public bool isHoldingGun;
+	public bool meleeOnly;
+
+
 	// Use this for initialization
 	void Start () {
 		

@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class CharacterMotor : MonoBehaviour {
 
+
+
+
 	/* CONTROLLING */
 	public float moveSpeed = 200f;
 	public float jumpForce = 375f;
@@ -21,9 +24,15 @@ public class CharacterMotor : MonoBehaviour {
 	[HideInInspector] public float distToGround;
 	[HideInInspector] public static Rigidbody rb;
 	[HideInInspector] public int health = 3;
+	public GameManagerTest gm;
 
 
 	//==================================================//
+
+	public void Awake(){
+		gm = GetComponent<GameManagerTest> ();
+	}
+
 
 
 	public void CharacterInitialization() {	//should go in Awake() or Start() of child class
@@ -129,27 +138,29 @@ public class CharacterMotor : MonoBehaviour {
 		 *		isHoldingObject = true;
 		 *	}
 		 */
+		gm.GetAllWeaponsInScene ();
 	}
 
 	public void Grab(ObjectController gameObj) {													//Should only be called if isHoldingSomething is false
 
 		this.transform.LookAt (gameObj.transform);
 		currentlyEquippedItem = gameObj;
+		Debug.Log (currentlyEquippedItem);
 		Destroy (gameObj.GetComponent<Rigidbody>());
 
 		gameObj.transform.SetParent (this.transform);
 		gameObj.transform.localPosition = new Vector3(0.16f, -0.21f, 0.65f);
-		gameObj.transform.localRotation = Quaternion.Euler(-3.9f, -4.16f, -0.125f);
-
+		gameObj.transform.localRotation = Quaternion.Euler(-3.9f, -94.16f, -0.125f);
 
 		isHoldingObject = true;
+		gm.GetAllWeaponsInScene ();
 	}
 
 	public void SetItemPosAndRot (GameObject go) {
 		//Sets the gameobjects position and rotation to the desired values
 		go.transform.SetParent (Camera.main.transform);
 		go.transform.localPosition = new Vector3(0.16f, -0.21f, 0.65f);
-		go.transform.localRotation = Quaternion.Euler(-3.9f, -4.16f, -0.125f);
+		go.transform.localRotation = Quaternion.Euler(-3.9f, -94.16f, -0.125f);
 	}
 
 
@@ -164,7 +175,7 @@ public class CharacterMotor : MonoBehaviour {
 			if (col.gameObject.tag == "Bullet") {
 				health = 0;
 			}
-			Debug.Log (this.name + " has been hit!");
+		//	Debug.Log (this.name + " has been hit!");
 		}
 
 	}
