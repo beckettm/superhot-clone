@@ -9,12 +9,15 @@ public class CrosshairImage : MonoBehaviour {
 	public Sprite grabCrosshairImage;
 	public Sprite gunCrosshairImage;
 	public Sprite punchCrosshairImage;
-	// Use this for initialization
+
+	bool reloadsoundplayed = true;
+
+
+	public AudioSource reloadSound;
 	void Start () {
 		thePlayer = GameObject.Find("Player");
 	}
-	
-	// Update is called once per frame
+
 	void Update () {
 //		GetComponent<Image> ().transform.position = Input.mousePosition;
 		Ray aRay = Camera.main.ScreenPointToRay (Input.mousePosition);
@@ -37,16 +40,23 @@ public class CrosshairImage : MonoBehaviour {
 			}
 		}
 		else{
-			GetComponent<Image> ().sprite = gunCrosshairImage;
-			if (thePlayer.GetComponent<PlayerController> ().canAttack == false) {
-				transform.localScale = new Vector3(0.7f, 0.7f, 0.7f);
-				GetComponent<Transform> ().Rotate (0, 0, -145f * Time.deltaTime);
-				//Quaternion targetRotation = Quaternion.Euler(0f,0f,-90f);
-				//transform.rotation = Quaternion.Slerp (transform.rotation, targetRotation, Time.deltaTime * 30f);
+			if (thePlayer.GetComponent<PlayerController> ().currentlyEquippedItem.gameObject.tag == "Gun") {
+				GetComponent<Image> ().sprite = gunCrosshairImage;
+				if (thePlayer.GetComponent<PlayerController> ().canAttack == false) { // If the gun has been used, reload "animation" plays
+					transform.localScale = new Vector3 (0.7f, 0.7f, 0.7f);
+					GetComponent<Transform> ().Rotate (0, 0, -145f * Time.deltaTime);
+					reloadsoundplayed = false;
+				} else {
+					if (reloadsoundplayed == false && thePlayer.GetComponent<PlayerController> ().currentlyEquippedItem.gameObject.tag == "Gun") {
+						// If gun is reloaded, return to inital rotation and size
+						reloadSound.Play ();
+						reloadsoundplayed = true;
+					}
+					transform.localScale = new Vector3 (1f, 1f, 1f);
+					transform.rotation = Quaternion.identity;
+				}
 			} else {
-				//transform.localScale = new Vector3(2,2,2);
-				transform.localScale = new Vector3(1f, 1f, 1f);
-				transform.rotation = Quaternion.identity;
+				GetComponent<Image> ().sprite = normalCrosshairImage;
 			}
 			/*if (Input.GetKeyDown(KeyCode.Mouse0)){
 				//Quaternion targetRotation = Quaternion.Euler(0f,0f,-90f);

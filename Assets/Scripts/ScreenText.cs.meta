@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 20db4f819e55a2c4ba478fa700e845bb
+timeCreated: 1502761872
+licenseType: Free
+MonoImporter:
+  serializedVersion: 2
+  defaultReferences:
+  - grabTextImage: {fileID: 21300000, guid: c71c2f93f3a2e354e99793cc3a9d4f8f, type: 3}
+  - theTextImage: {fileID: 21300000, guid: f210d928cc7b6194996b3e739a541d0c, type: 3}
+  - gunTextImage: {fileID: 21300000, guid: 05cc7fb6b3140b743b4eeaa5aca7fd6a, type: 3}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

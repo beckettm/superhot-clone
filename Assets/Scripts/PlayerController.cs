@@ -10,7 +10,7 @@ public class PlayerController : CharacterMotor {
 
 
 	AudioSource gunClick;
-
+	public AudioSource punchSound;
 
 	//==================================================//
 
@@ -48,7 +48,7 @@ public class PlayerController : CharacterMotor {
 			Cursor.visible = false;
 		}
 
-		Ray aRay = Camera.main.ScreenPointToRay (Input.mousePosition);
+		Ray aRay = Camera.main.ViewportPointToRay( new Vector3( 0.5f, 0.5f, Camera.main.nearClipPlane ));
 		RaycastHit rayHit = new RaycastHit ();
 		Debug.DrawRay (aRay.origin, aRay.direction * 2f, Color.red);
 
@@ -59,15 +59,20 @@ public class PlayerController : CharacterMotor {
 
 			if (isHoldingObject){
 				if (currentlyEquippedItem.gameObject.tag == "Gun") {
-					if (currentlyEquippedItem.GetComponent<Pistol> ().ammo > 0) {
-						Attack ();
-						currentlyEquippedItem.GetComponent<Pistol> ().ammo--;
-					} else {
-						gunClick.Play();
-					}
+						if (currentlyEquippedItem.GetComponent<Pistol> ().ammo > 0) {
+							Attack ();
+							currentlyEquippedItem.GetComponent<Pistol> ().ammo--;
+						} else {
+							gunClick.Play ();
+						}
+
 				} else {
 					if (Physics.Raycast (aRay, out rayHit, 2f)) {
 						if (rayHit.collider.gameObject.tag == "Enemy") {
+							if (canAttack) {
+								Strike (rayHit);
+								punchSound.Play ();
+							}
 							//swing weapon
 						}
 					}
@@ -82,7 +87,12 @@ public class PlayerController : CharacterMotor {
 					if (rayHit.collider.gameObject.GetComponent<ObjectController> () != null) {
 						Grab ();
 					} else if (rayHit.collider.gameObject.tag == "Enemy") {
-						Punch (rayHit);
+						if (canAttack) {
+							
+							Punch (rayHit);
+							punchSound.Play ();
+
+						}
 						//punch
 					}
 
