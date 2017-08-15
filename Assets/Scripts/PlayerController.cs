@@ -81,7 +81,7 @@ public class PlayerController : CharacterMotor {
 				/**Logic for fixing this***/
 
 			 else {
-				if (Physics.Raycast (aRay, out rayHit, 2f)) {
+				if (Physics.Raycast (aRay, out rayHit, 1f)) {
 					Debug.Log ("The attack ray has landed");
 
 					if (rayHit.collider.gameObject.GetComponent<ObjectController> () != null) {
