@@ -137,10 +137,7 @@ public class CharacterMotor : MonoBehaviour {
 			}
 		}
 
-
-
-
-		/*	PSEUDO-CODE:
+	/*	PSEUDO-CODE:
 		 * 	
 		 * 	if ( !isHoldingObject && can pick up object ) {
 		 *		pick up object;
@@ -157,7 +154,7 @@ public class CharacterMotor : MonoBehaviour {
 
 		gameObj.transform.SetParent (this.transform);
 		gameObj.transform.localPosition = new Vector3(0.16f, -0.21f, 0.65f);
-		gameObj.transform.localRotation = Quaternion.Euler(-3.9f, -4.16f, -0.125f);
+		gameObj.transform.localRotation = Quaternion.Euler(-3.9f, -94.16f, -0.125f);
 
 
 		isHoldingObject = true;
@@ -167,7 +164,7 @@ public class CharacterMotor : MonoBehaviour {
 		//Sets the gameobjects position and rotation to the desired values
 		go.transform.SetParent (Camera.main.transform);
 		go.transform.localPosition = new Vector3(0.16f, -0.21f, 0.65f);
-		go.transform.localRotation = Quaternion.Euler(-3.9f, -4.16f, -0.125f);
+		go.transform.localRotation = Quaternion.Euler(-3.9f, -94.16f, -0.125f);
 	}
 
 

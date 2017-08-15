@@ -19,22 +19,26 @@ public class CrosshairImage : MonoBehaviour {
 	}
 
 	void Update () {
-		// Creates a ray from mouse position
+//		GetComponent<Image> ().transform.position = Input.mousePosition;
 		Ray aRay = Camera.main.ScreenPointToRay (Input.mousePosition);
 		RaycastHit rayHit = new RaycastHit ();
-		//Debug.DrawRay (aRay.origin, aRay.direction * 2f, Color.yellow);
+		Debug.DrawRay (aRay.origin, aRay.direction * 2f, Color.yellow);
 		if (thePlayer.GetComponent<PlayerController>().currentlyEquippedItem == null){
+			//GetComponent<Image> ().sprite = normalCrosshairImage;
+			/*if (rayHit.transform.gameObject.tag == "Gun") {
+				GetComponent<Image> ().sprite = grabCrosshairImage;
+			}*/
 			GetComponent<Image> ().sprite = normalCrosshairImage;
 			if (Physics.Raycast(aRay, out rayHit, 2f)){
-				if (rayHit.collider.gameObject.GetComponent<ObjectController>() != null) { // If there is an object in front of the player, show grab crosshair image
+				if (rayHit.collider.gameObject.tag == "Object") {
 					GetComponent<Image> ().sprite = grabCrosshairImage;
-				} else if (rayHit.collider.gameObject.tag == "Enemy"){ // If there is an enemy in front of the player, show punch crosshair image
+				} else if (rayHit.collider.gameObject.tag == "Enemy"){
 					GetComponent<Image> ().sprite = punchCrosshairImage;
-				} 
+				} //else {
+					//GetComponent<Image> ().sprite = normalCrosshairImage;
+				//}
 			}
 		}
-
-		// Else the crosshair has the gun image
 		else{
 			if (thePlayer.GetComponent<PlayerController> ().currentlyEquippedItem.gameObject.tag == "Gun") {
 				GetComponent<Image> ().sprite = gunCrosshairImage;
@@ -54,6 +58,22 @@ public class CrosshairImage : MonoBehaviour {
 			} else {
 				GetComponent<Image> ().sprite = normalCrosshairImage;
 			}
+			/*if (Input.GetKeyDown(KeyCode.Mouse0)){
+				//Quaternion targetRotation = Quaternion.Euler(0f,0f,-90f);
+				//transform.rotation = Quaternion.Slerp (transform.rotation, targetRotation, Time.deltaTime * 60f);
+				StartCoroutine(RotateCrosshair(Vector3.forward * -90f, 0.3f));
+
+			}*/
+			//Quaternion targetRotation = Quaternion.Euler(0f,0f,-90f);
+			//transform.rotation = Quaternion.Slerp (transform.rotation, targetRotation, Time.deltaTime * 60f);
 		}
 	}
+	/*IEnumerator RotateCrosshair(Vector3 rotationDegrees, float durationOfRotation){
+		var fromAngle = transform.rotation;
+		var toAngle = Quaternion.Euler (transform.eulerAngles + rotationDegrees);
+		for (var t = 0f; t < 1f; t += Time.deltaTime / durationOfRotation) {
+			transform.rotation = Quaternion.Lerp (fromAngle, toAngle, t);
+			yield return null;
+		}
+	}*/
 }

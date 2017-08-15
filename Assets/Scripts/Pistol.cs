@@ -15,7 +15,7 @@ public class Pistol : MonoBehaviour {
 
 
 	void Start () {
-		ammo = Random.Range (1, 7);
+		ammo = Random.Range (3, 5);
 		//print (ammo);
 		
 	}
