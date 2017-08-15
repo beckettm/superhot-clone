@@ -30,7 +30,7 @@ public class CrosshairImage : MonoBehaviour {
 			}*/
 			GetComponent<Image> ().sprite = normalCrosshairImage;
 			if (Physics.Raycast(aRay, out rayHit, 2f)){
-				if (rayHit.collider.gameObject.tag == "Object") {
+				if (rayHit.collider.gameObject.tag == "Gun" || rayHit.collider.gameObject.tag == "Object") {
 					GetComponent<Image> ().sprite = grabCrosshairImage;
 				} else if (rayHit.collider.gameObject.tag == "Enemy"){
 					GetComponent<Image> ().sprite = punchCrosshairImage;
