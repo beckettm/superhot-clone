@@ -76,7 +76,7 @@ public class PlayerController : CharacterMotor {
 				/**Logic for fixing this***/
 
 			 else {
-				if (Physics.Raycast (aRay, out rayHit, 1f)) {
+				if (Physics.Raycast (aRay, out rayHit, 2f)) {
 					Debug.Log ("The attack ray has landed");
 
 					if (rayHit.collider.gameObject.GetComponent<ObjectController> () != null) {
@@ -106,7 +106,7 @@ public class PlayerController : CharacterMotor {
 
 	public void Move() {
 		Vector3 yVelFix = new Vector3( 0, rb.velocity.y, 0 );
-		rb.velocity = moveDir * moveSpeed * Time.deltaTime;
+		rb.velocity = moveDir * moveSpeed * Time.unscaledDeltaTime;
 		rb.velocity += yVelFix;	//allows player to be affected by gravity
 	}
 

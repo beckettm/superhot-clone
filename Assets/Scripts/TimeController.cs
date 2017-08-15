@@ -47,18 +47,12 @@ public class TimeController : MonoBehaviour {
 		// Gets mouse velocity by averaging Mouse X and Mouse Y movement:
 		float mouseVel = ( Mathf.Abs( Input.GetAxis( "Mouse X" )) +
 						   Mathf.Abs( Input.GetAxis( "Mouse Y" )) / 2);
-
+			
 		// Handles all time-slowing effects:
 		if ( canAffectTime ) {
 
-			// Walking time:
-			if ( Input.GetButton( "Horizontal" ) || Input.GetButton( "Vertical" ) ) {
-				changePitch (realTimeScale);
-				EditTimeScale( realTimeScale );
-
-				
 			// Mouse-Look Time:
-			} else if ( mouseVel >= 0.5f ) {
+			if ( mouseVel >= 0.5f ) {
 				float clampt = Mathf.Clamp (mouseVel / 5, mouseTimeScale_Min, mouseTimeScale_Max);
 				changePitch (clampt);
 				EditTimeScale(clampt);
@@ -89,6 +83,11 @@ public class TimeController : MonoBehaviour {
 					changePitch (realTimeScale);
 					EditTimeScale( realTimeScale );
 				}
+				
+			// Walking time:
+			} else if ( Input.GetButton( "Horizontal" ) || Input.GetButton( "Vertical" ) ) {
+				changePitch (realTimeScale);
+				EditTimeScale( realTimeScale );
 				
 			// If not moving:
 			} else {

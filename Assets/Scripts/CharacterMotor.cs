@@ -129,10 +129,7 @@ public class CharacterMotor : MonoBehaviour {
 			}
 		}
 
-
-
-
-		/*	PSEUDO-CODE:
+	/*	PSEUDO-CODE:
 		 * 	
 		 * 	if ( !isHoldingObject && can pick up object ) {
 		 *		pick up object;
