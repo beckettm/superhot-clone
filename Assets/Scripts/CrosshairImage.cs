@@ -36,19 +36,23 @@ public class CrosshairImage : MonoBehaviour {
 
 		// Else the crosshair has the gun image
 		else{
-			GetComponent<Image> ().sprite = gunCrosshairImage;
-			if (thePlayer.GetComponent<PlayerController> ().canAttack == false) { // If the gun has been used, reload "animation" plays
-				transform.localScale = new Vector3(0.7f, 0.7f, 0.7f);
-				GetComponent<Transform> ().Rotate (0, 0, -145f * Time.deltaTime);
-				reloadsoundplayed = false;
-			} else {
-				if (reloadsoundplayed == false) {
-					// If gun is reloaded, return to inital rotation and size
-					reloadSound.Play ();
-					reloadsoundplayed = true;
+			if (thePlayer.GetComponent<PlayerController> ().currentlyEquippedItem.gameObject.tag == "Gun") {
+				GetComponent<Image> ().sprite = gunCrosshairImage;
+				if (thePlayer.GetComponent<PlayerController> ().canAttack == false) { // If the gun has been used, reload "animation" plays
+					transform.localScale = new Vector3 (0.7f, 0.7f, 0.7f);
+					GetComponent<Transform> ().Rotate (0, 0, -145f * Time.deltaTime);
+					reloadsoundplayed = false;
+				} else {
+					if (reloadsoundplayed == false && thePlayer.GetComponent<PlayerController> ().currentlyEquippedItem.gameObject.tag == "Gun") {
+						// If gun is reloaded, return to inital rotation and size
+						reloadSound.Play ();
+						reloadsoundplayed = true;
+					}
+					transform.localScale = new Vector3 (1f, 1f, 1f);
+					transform.rotation = Quaternion.identity;
 				}
-				transform.localScale = new Vector3(1f, 1f, 1f);
-				transform.rotation = Quaternion.identity;
+			} else {
+				GetComponent<Image> ().sprite = normalCrosshairImage;
 			}
 		}
 	}

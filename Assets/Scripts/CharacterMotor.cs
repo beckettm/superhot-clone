@@ -63,6 +63,12 @@ public class CharacterMotor : MonoBehaviour {
 
 	}
 
+	public void Strike(RaycastHit hit){
+		hit.collider.gameObject.GetComponent<CharacterMotor> ().health -= 3;
+		print ("Enemy has :" + hit.collider.gameObject.GetComponent<CharacterMotor> ().health + " health left");
+		StartCoroutine (AttackWait (0.005f));
+	}
+
 
 	public void Attack() {
 		if (isHoldingObject && canAttack) {
