@@ -69,6 +69,10 @@ public class PlayerController : CharacterMotor {
 				} else {
 					if (Physics.Raycast (aRay, out rayHit, 2f)) {
 						if (rayHit.collider.gameObject.tag == "Enemy") {
+							if (canAttack) {
+								Strike (rayHit);
+								punchSound.Play ();
+							}
 							//swing weapon
 						}
 					}
